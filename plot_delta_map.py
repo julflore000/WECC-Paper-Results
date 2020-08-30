@@ -108,6 +108,7 @@ biggest_diff = np.maximum(abs(max_elcc),abs(min_elcc))
 biggest_diff = np.maximum(biggest_diff,15)
 
 divnorm = colors.TwoSlopeNorm(vmin=-1*abs(biggest_diff), vcenter=0, vmax=abs(biggest_diff))
+
 ##############
 #CHANGE FOR CONTOUR OR REGULAR HEATMAP WITH SQUARES comment out whichever plot you dont want!!
 

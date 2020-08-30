@@ -140,10 +140,9 @@ def main():
     region = "california"
     year = '2016'
     results_directory = region+'/'+year+'/'
-    results_filename = results_directory + "1_GW_Solar_results.csv"
-    img_filename = results_directory+'map_1_GW_Solar'
-    descriptor = '1 GW Solar'
-
+    results_filename = results_directory + "1_GW_Wind_results.csv"
+    img_filename = results_directory+'map_1_GW_Wind'
+    descriptor = '1 GW Wind'
     '''
     region = sys.argv[1]
     year = sys.argv[2]
