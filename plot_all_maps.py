@@ -3,12 +3,12 @@ import os
 
 region = sys.argv[1]
 year = sys.argv[2]
-
 # find results folder
 results_directory = region+'/'+year+'/'
 
 # parameters
-os.system('python plot_map.py '
+
+os.system('python plot_map.py ' #main program run
             +region+' '+year+' '
             +results_directory+'1_GW_Solar_results.csv' # results file
             +' '+results_directory+'map_1_GW_Solar' #output name
