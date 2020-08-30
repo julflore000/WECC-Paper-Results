@@ -24,6 +24,20 @@ os.system('python plot_map.py '
 
 os.system('python plot_map.py '
             +region+' '+year+' '
+            +results_directory+'100_MW_Solar_results.csv' # results file
+            +' '+results_directory+'map_100_MW_Solar' #output name
+            +' '+'"'+'100 MW Solar' #descriptor
+            +'"')
+
+os.system('python plot_map.py '
+            +region+' '+year+' '
+            +results_directory+'100_MW_Wind_results.csv' # results file
+            +' '+results_directory+'map_100_MW_Wind' #output name
+            +' '+'"'+'100 MW Wind' #descriptor
+            +'"')
+
+os.system('python plot_map.py '
+            +region+' '+year+' '
             +results_directory+'5_GW_Solar_results.csv' # results file
             +' '+results_directory+'map_5_GW_Solar' #output name
             +' '+'"'+'5 GW Solar' #descriptor
@@ -65,6 +79,24 @@ os.system('python plot_map.py '
             +'"')
 
 # delta maps
+os.system('python plot_delta_map.py '
+            +region+' '+year+' '
+            +results_directory+'1_GW_Solar_results.csv' # results file 1
+            +' '+results_directory+'100_MW_Solar_results.csv' # results file 2
+            +' '+results_directory+'map_delta_'+'1_GW_Solar_to_100_MW_Solar' #image filename
+            +' "'+'1 GW Solar' # descriptor results 1
+            +'" "'+'100 MW Solar' #descriptor results 2
+            +'"')
+
+os.system('python plot_delta_map.py '
+            +region+' '+year+' '
+            +results_directory+'1_GW_Wind_results.csv' # results file 1
+            +' '+results_directory+'100_MW_Wind_results.csv' # results file 2
+            +' '+results_directory+'map_delta_'+'1_GW_Wind_to_100_MW_Wind' #image filename
+            +' "'+'1 GW Wind' # descriptor results 1
+            +'" "'+'100 MW Wind' #descriptor results 2
+            +'"')
+
 os.system('python plot_delta_map.py '
             +region+' '+year+' '
             +results_directory+'1_GW_Solar_results.csv' # results file 1
@@ -118,3 +150,6 @@ os.system('python plot_delta_map.py '
             +' "'+'1 GW Wind' # descriptor results 1
             +'" "'+'1 GW Wind w/ 2x Existing Renewables' #descriptor results 2
             +'"')
+
+
+
