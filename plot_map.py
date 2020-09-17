@@ -27,6 +27,8 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor):
 
     `descriptor`
     """
+    stateList = ['all']
+
     # find ranges
     max_elcc = np.amax(elcc_map)
     min_elcc = np.amin(elcc_map)
@@ -52,8 +54,8 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor):
 
     #find number of ticks
     num_ticks = np.arange(3,10)
-    num_lats = np.amin(num_ticks[len(lons)%num_ticks == 0])
-    num_lons = np.amin(num_ticks[len(lons)%num_ticks == 0])
+    num_lats = 3
+    num_lons = 3
 
     ax.set_xticks(np.linspace(0,len(lons)-1,num_lons))
     ax.set_yticks(np.linspace(0,len(lats)-1,num_lats))
@@ -71,7 +73,6 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor):
     ax.set_title(title,fontsize=18)
 
     return ax
-
 
 def main():
     region = sys.argv[1]
