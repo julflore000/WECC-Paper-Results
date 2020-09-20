@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from netCDF4 import Dataset 
 import shapefile as shp  # Requires the pyshp package
 
-def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor, label_activation = False):
+def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor, label_activation = False,descriptorOveride = False):
     """ Plot a single
 
     ...
@@ -81,10 +81,10 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor, label_ac
     #CHANGE FOR CONTOUR OR REGULAR HEATMAP WITH SQUARES
 
     # contour plot, extent overlays the heatmap onto the regular map
-    #im = ax.contourf(elcc_map,vmax=vmax,vmin=vmin,cmap='plasma', extent = [np.min(lons),np.max(lons),np.min(lats),np.max(lats)])
+    im = ax.contourf(elcc_map,vmax=vmax,vmin=vmin,cmap='plasma', extent = [np.min(lons),np.max(lons),np.min(lats),np.max(lats)])
     
     #regular boxplot
-    im = ax.imshow(np.flip(elcc_map,axis=0),vmax=vmax,vmin=vmin,cmap='plasma', extent = [np.min(lons),np.max(lons),np.min(lats),np.max(lats)])    
+    #im = ax.imshow(np.flip(elcc_map,axis=0),vmax=vmax,vmin=vmin,cmap='plasma', extent = [np.min(lons),np.max(lons),np.min(lats),np.max(lats)])    
 
     ##############
 
@@ -125,8 +125,10 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor, label_ac
                 text_lat = lat + lat_increase
                 ax.text(text_lon, text_lat, label, color='w', ha='center', va='center')
 
- 
-    title = 'ELCC of\n'+descriptor+'\n'+region.capitalize() +' '+year
+    if descriptorOveride:
+        title =  'ELCC of\n'+descriptor
+    else:
+        title = 'ELCC of\n'+descriptor+'\n'+region.capitalize() +' '+year
 
     ax.set_title(title,fontsize=18)
 
