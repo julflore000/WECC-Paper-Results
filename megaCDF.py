@@ -16,7 +16,7 @@ lons = np.unique(longitude).flatten()
 print(lats,lons)
 
 # create cdf
-d = Dataset('WECC_Results.nc','w')
+d = Dataset('wecc_results.nc','w')
 lat = d.createDimension('lat',len(lats))
 lon = d.createDimension('lon',len(lons))
 lat = d.createVariable('lat','f4',('lat',))
