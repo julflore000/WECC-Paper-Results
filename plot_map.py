@@ -4,15 +4,13 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 from netCDF4 import Dataset 
 
-def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor):
+def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor,title=None):
     """ Plot a single
 
     ...
 
     Args:
     ---------------
-    `fig`
-
     `ax`
 
     `elcc_map`
@@ -44,11 +42,13 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor):
 
     # contour plot
     im = ax.imshow(elcc_map,vmax=vmax,vmin=vmin,cmap='plasma',origin='lower')
+    '''
     cbar = ax.figure.colorbar(im)
     cbar.ax.set_ylabel('ELCC (% of Nameplate)',fontsize=15)
     cbar.set_ticks(np.linspace(vmin,vmax,5)[1:-1])
     cbar.ax.set_yticklabels(np.linspace(vmin,vmax,5)[1:-1],fontsize=12)
-
+    '''
+    
     ax.set_xlabel('Longitude',fontsize=15)
     ax.set_ylabel('Latitude',fontsize=15)
 
@@ -68,7 +68,8 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor):
                         ha="center", va="center", color="w")
 
 
-    title = 'ELCC of\n'+descriptor+'\n'+region.capitalize()+' '+year
+    if title is None:
+        title = 'ELCC of\n'+descriptor+'\n'+region.capitalize()+' '+year
 
     ax.set_title(title,fontsize=18)
 
