@@ -97,7 +97,7 @@ def main(minLon, maxLon,minLat, maxLat, implementStateBounds = False,stateRegion
         #go state by state building up region array
         for stateFile in stateFiles:
             if ((stateFile[0:2] in stateRegionList[:]) | (stateRegionList[0]== 'all')):
-                regionArray += generateBounds("stateNetcdfs\\" + stateFile,latitudeRange,longitudeRange)
+                regionArray += generateBounds("stateNetcdfs/" + stateFile,latitudeRange,longitudeRange)
 
     else:
         regionFilename = "offshoreBoundaries.nc"

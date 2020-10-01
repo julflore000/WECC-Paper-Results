@@ -16,8 +16,6 @@ from plot_map import plot_single_map
 
 
 
-
-
 def main(fileName):
     """ 
     Plots that specific type (e.g. "1_GW_Solar_Storage") across all regions and years and averages
@@ -31,10 +29,24 @@ def main(fileName):
     `ax`
     """
     regions = ["california","mountains","northwest","southwest","basin"]
-    master_elcc_map = np.zeros((18,15))
-    timesThru = 0
-    for region in regions:
-        for year in ['2016','2017','2018']:
+    
+    
+    testFilePath = "mountains/2016/1_GW_Wind_results.csv"
+    results = pd.read_csv(testFilePath,index_col=0)
+    
+    latitude = results['latitude'].values.astype(float)
+    longitude = results['longitude'].values.astype(float)
+    elcc = results['ELCC'].values.astype(int)
+
+    # make map 
+
+    uniqueLats = np.unique(latitude)
+    uniqueLons = np.unique(longitude)
+
+    
+    for region in regions:       
+        elcc_map = np.zeros((3,len(uniqueLats),len(uniqueLons)))
+        for yearIndex,year in enumerate(['2016','2017','2018']):
             results_directory = region+'/'+year+'/'
             results_filename = results_directory + fileName + ".csv"
             results = pd.read_csv(results_filename,index_col=0)
@@ -43,29 +55,20 @@ def main(fileName):
             longitude = results['longitude'].values.astype(float)
             elcc = results['ELCC'].values.astype(int)
 
-            # make map 
-
-            lats = np.unique(latitude)
-            lons = np.unique(longitude)
-
-            elcc_map = np.zeros((len(lats),len(lons)))
-
             # fill map
 
             for i in range(len(elcc)):
                 
-                elcc_map[np.argwhere(lats == latitude[i])[0,0], np.argwhere(lons == longitude[i])[0,0]] = elcc[i]
+                elcc_map[yearIndex,np.argwhere(uniqueLats == latitude[i])[0,0], np.argwhere(uniqueLons == longitude[i])[0,0]] = elcc[i]
             
-            #add on to total map
-            timesThru +=1
-            master_elcc_map += elcc_map
-    
-    print(timesThru)
-    master_elcc_map = master_elcc_map / 15
-    
-    #now plotting
-    fig = plt.figure(figsize=(10,8))
-    ax = fig.add_subplot(111)                
-    plot_single_map(ax, elcc_map, lats, lons, region, year, fileName,True,True)
-    plt.show()
-main("100_MW_Wind_results")
+        #get mean and standard deviation final arrays
+        mean = np.mean(elcc_map,axis=0)
+        std = np.std(elcc_map,axis=0)
+        #fixedStdValues = np.where(std < .5,.5,std)
+        iavValues = std/mean * 100
+        #now plotting
+        fig = plt.figure(figsize=(10,8))
+        ax = fig.add_subplot(111)                
+        plot_single_map(ax, iavValues, uniqueLats, uniqueLons, region, year, ["%s's %s IAV (percent)" % (region,fileName),'IAV (standard deviation/ mean)*100%'],False,True)
+        plt.show()
+main("1_GW_solar_results")

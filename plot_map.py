@@ -12,8 +12,6 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor, label_ac
 
     Args:
     ---------------
-    `fig`
-
     `ax`
 
     `elcc_map`
@@ -29,6 +27,8 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor, label_ac
     `descriptor`
 
     `label_activation`: (bool) default set to false and if set to true will label the squares with the respective values
+    
+    `descriptorOveride`: (bool) default set to false and if set to true will rename the title of the plot with the descriptor
     """
 
     ######
@@ -63,6 +63,7 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor, label_ac
     plt.xlim(np.min(lons),np.max(lons))
     plt.ylim(np.min(lats),np.max(lats))
 
+    stateList = ['all']
 
     # find ranges
     max_elcc = np.amax(elcc_map)
@@ -74,8 +75,8 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor, label_ac
     #vmin
     vmin = int(min_elcc - (min_elcc)/3)
 
-    print(max_elcc,min_elcc)
-    print(vmax, vmin)
+    #print(max_elcc,min_elcc)
+    #print(vmax, vmin)
 
     ##############
     #CHANGE FOR CONTOUR OR REGULAR HEATMAP WITH SQUARES
@@ -89,7 +90,10 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor, label_ac
     ##############
 
     cbar = ax.figure.colorbar(im)
-    cbar.ax.set_ylabel('ELCC (% of Nameplate)',fontsize=15)
+    if descriptorOveride:
+        cbar.ax.set_ylabel(descriptor[1],fontsize=15)
+    else:
+        cbar.ax.set_ylabel('ELCC (% of Nameplate)',fontsize=15)
 
     #lets matplot automatically figure out how to plot can change if need be
     #cbar.set_ticklabels(values)
@@ -101,8 +105,8 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor, label_ac
     #finds number of ticks-IMPORTANT: currently left in but right now the ticks seem good, feel free to change though whatever you want with formating!
     '''
     num_ticks = np.arange(3,10)
-    num_lats = np.amin(num_ticks[len(lons)%num_ticks == 0])
-    num_lons = np.amin(num_ticks[len(lons)%num_ticks == 0])
+    num_lats = 3
+    num_lons = 3
 
     ax.set_xticks(np.linspace(0,len(lons)-1,num_lons))
     ax.set_yticks(np.linspace(0,len(lats)-1,num_lats))
@@ -126,7 +130,7 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor, label_ac
                 ax.text(text_lon, text_lat, label, color='w', ha='center', va='center')
 
     if descriptorOveride:
-        title =  'ELCC of\n'+descriptor
+        title =  descriptor[0]
     else:
         title = 'ELCC of\n'+descriptor+'\n'+region.capitalize() +' '+year
 
@@ -134,24 +138,23 @@ def plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor, label_ac
 
     return ax
 
-
 def main():
 
     #for testing
-    '''
-    region = "california"
-    year = '2016'
+
+    region = "southwest"
+    year = '2018'
     results_directory = region+'/'+year+'/'
-    results_filename = results_directory + "1_GW_Wind_results.csv"
+    results_filename = results_directory + "100_MW_Wind_results.csv"
     img_filename = results_directory+'map_1_GW_Wind'
-    descriptor = '1 GW Wind'
+    descriptor = '100 MW Wind'
     '''
     region = sys.argv[1]
     year = sys.argv[2]
     results_filename = sys.argv[3]
     img_filename = sys.argv[4]
     descriptor = sys.argv[5]
-
+    '''
     #change label activation here to write values to boxes or not
     label_activation = True
     # load results
@@ -179,6 +182,7 @@ def main():
     
     #actually plot ELCC values
     plot_single_map(ax, elcc_map, lats, lons, region, year, descriptor,label_activation)
+    plt.show()
     plt.savefig(img_filename,bbox_inches='tight',dpi=100)
 
 if __name__ == "__main__":
